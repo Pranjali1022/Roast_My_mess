@@ -3,7 +3,7 @@ Roast My Mess — Prototype: IIT KGP Campus AI Companion
 """
 
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 import os
 import json
 import random
