@@ -3,12 +3,14 @@ Roast My Mess — Prototype: IIT KGP Campus AI Companion
 """
 
 import streamlit as st
-import anthropic
+import google.generativeai as genai
+import os
 import json
 import random
 from datetime import datetime
 from data import COMMUNITY_POSTS, LEADERBOARD, COMPLAINT_DATA, SAMPLE_MENUS, HALLS, TONE_PROMPTS
 
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # Page config (must be first Streamlit call) 
 st.set_page_config(
     page_title="Roast My Mess — IIT KGP",
@@ -305,20 +307,23 @@ with tab_roast:
             placeholder = st.empty()
             placeholder.markdown(loading_html, unsafe_allow_html=True)
             try:
-                    #Anthropic API call 
-                    client = anthropic.Anthropic()
-
-                    system_prompt = TONE_PROMPTS.get(tone_key, TONE_PROMPTS["savage"])
-                    user_prompt = f"Menu from {hall} Mess, IIT KGP:\n{menu_text}\n\nRoast this menu. Be funny and culturally specific to IIT KGP campus life."
-
-                    message = client.messages.create(
-                        model="claude-opus-4-6",          # strongest model for creative roasting
-                        max_tokens=1024,
-                        system=system_prompt,
-                        messages=[{"role": "user", "content": user_prompt}],
-                    )
-
-                    roast = message.content[0].text
+                   # Gemini API call
+                    model = genai.GenerativeModel("gemini-1.5-flash")
+                    
+                    full_prompt = f"""
+                    {system_prompt}
+                    
+                    {user_prompt}
+                    """
+                    
+                    response = model.generate_content(full_prompt)
+                    
+                    roast = response.text
+                    if not roast:
+                        roast = "Mess was so bad even AI gave up 😭"
+                    
+                    # increment count
+                    st.session_state.roast_count += 1
 
                     # Extract rating from the roast text (e.g. "2.5/10")
                     import re
