@@ -10,7 +10,7 @@ import random
 from datetime import datetime
 from data import COMMUNITY_POSTS, LEADERBOARD, COMPLAINT_DATA, SAMPLE_MENUS, HALLS, TONE_PROMPTS
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 # Page config (must be first Streamlit call) 
 st.set_page_config(
     page_title="Roast My Mess — IIT KGP",
@@ -310,16 +310,7 @@ with tab_roast:
                     system_prompt = TONE_PROMPTS.get(tone_key, TONE_PROMPTS["savage"])
                     user_prompt = f"Menu from {hall} Mess, IIT KGP:\n{menu_text}\n\nRoast this menu. Be funny and culturally specific to IIT KGP campus life."
                     # Gemini API call
-                    # ✅ Gemini API call
-                    model = genai.GenerativeModel("models/gemini-1.0-pro")
-                    
-                    full_prompt = f"{system_prompt}\n\n{user_prompt}"
-                    
-                    response = model.generate_content(
-                        full_prompt,
-                        request_options={"timeout": 10}
-                    )
-                    
+                    response = client.models.generate_content(model="gemini-2.0-flash",contents=f"{system_prompt}\n\n{user_prompt}")
                     roast = response.text
                     if not roast:
                         roast = "Mess was so bad even AI gave up 😭"
