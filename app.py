@@ -263,6 +263,13 @@ with tab_roast:
     generate = st.button("🔥 Roast This Menu", use_container_width=True, type="primary")
 
     if generate:
+        # 🔒 LIMIT CODE (ADD THIS BLOCK HERE)
+        if "roast_count" not in st.session_state:
+            st.session_state.roast_count = 0
+
+        if st.session_state.roast_count >= 5:
+            st.warning("🚫 Demo limit reached (max 5 roasts).")
+            st.stop()
         if not menu_text.strip():
             st.warning("Please enter today's menu first!")
         else:
