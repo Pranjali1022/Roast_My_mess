@@ -310,7 +310,7 @@ with tab_roast:
                     system_prompt = TONE_PROMPTS.get(tone_key, TONE_PROMPTS["savage"])
                     user_prompt = f"Menu from {hall} Mess, IIT KGP:\n{menu_text}\n\nRoast this menu. Be funny and culturally specific to IIT KGP campus life."
                     # Gemini API call
-                    response = client.models.generate_content(model="gemini-2.0-flash",contents=f"{system_prompt}\n\n{user_prompt}")
+                    response = client.models.generate_content(model="gemini-1.0-flash",contents=f"{system_prompt}\n\n{user_prompt}")
                     roast = response.text
                     if not roast:
                         roast = "Mess was so bad even AI gave up 😭"
