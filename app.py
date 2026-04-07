@@ -232,7 +232,7 @@ with tab_roast:
         # Text area for menu input
         menu_text = st.text_area(
             "Menu",
-            placeholder="e.g. Monday lunch: Dal tadka, rice, roti, aloo gobhi, raita, boiled egg, banana...",
+            placeholder="e.g. Monday lunch: Dal, rice, roti, aloo gobhi, raita, boiled egg, banana...",
             height=160,
             label_visibility="collapsed",
         )
@@ -311,7 +311,7 @@ with tab_roast:
                     user_prompt = f"Menu from {hall} Mess, IIT KGP:\n{menu_text}\n\nRoast this menu. Be funny and culturally specific to IIT KGP campus life."
                     # Gemini API call
                     # ✅ Gemini API call
-                    model = genai.GenerativeModel("gemini-1.5-flash")
+                    model = genai.GenerativeModel("gemini-1.5-flash-latest")
                     
                     full_prompt = f"{system_prompt}\n\n{user_prompt}"
                     
