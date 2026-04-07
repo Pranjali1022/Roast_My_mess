@@ -311,7 +311,7 @@ with tab_roast:
                     user_prompt = f"Menu from {hall} Mess, IIT KGP:\n{menu_text}\n\nRoast this menu. Be funny and culturally specific to IIT KGP campus life."
                     # Gemini API call
                     # ✅ Gemini API call
-                    model = genai.GenerativeModel("gemini-1.5-flash-latest")
+                    model = genai.GenerativeModel("models/gemini-1.0-pro")
                     
                     full_prompt = f"{system_prompt}\n\n{user_prompt}"
                     
