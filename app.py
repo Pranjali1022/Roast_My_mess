@@ -307,16 +307,18 @@ with tab_roast:
             placeholder = st.empty()
             placeholder.markdown(loading_html, unsafe_allow_html=True)
             try:
-                   # Gemini API call
+                    system_prompt = TONE_PROMPTS.get(tone_key, TONE_PROMPTS["savage"])
+                    user_prompt = f"Menu from {hall} Mess, IIT KGP:\n{menu_text}\n\nRoast this menu. Be funny and culturally specific to IIT KGP campus life."
+                    # Gemini API call
+                    # ✅ Gemini API call
                     model = genai.GenerativeModel("gemini-1.5-flash")
                     
-                    full_prompt = f"""
-                    {system_prompt}
+                    full_prompt = f"{system_prompt}\n\n{user_prompt}"
                     
-                    {user_prompt}
-                    """
-                    
-                    response = model.generate_content(full_prompt)
+                    response = model.generate_content(
+                        full_prompt,
+                        request_options={"timeout": 10}
+                    )
                     
                     roast = response.text
                     if not roast:
